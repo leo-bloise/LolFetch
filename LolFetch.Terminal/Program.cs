@@ -29,7 +29,8 @@ public class Program
                 new ChampionImageDownloader(ddUriBuilder), new AscIIDraftsman()
                 ), 
             applicationMetadataRepository, 
-            canvasOutputDevice
+            canvasOutputDevice,
+            new ChampionNameFormatter()
             );
         
         RootCommandBuilder rootCommandBuilder = new RootCommandBuilder(command);

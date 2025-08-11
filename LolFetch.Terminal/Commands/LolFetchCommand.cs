@@ -9,7 +9,12 @@ using LolFetch.Infrastructure;
 
 namespace LolFetch.Commands;
 
-public class LolFetchCommand(RenderChampionUseCase renderChampionUseCase, IApplicationMetadataRepository applicationMetadataRepository, ICanvasOutputDevice canvasOutputDevice)
+public class LolFetchCommand(
+    RenderChampionUseCase renderChampionUseCase, 
+    IApplicationMetadataRepository applicationMetadataRepository, 
+    ICanvasOutputDevice canvasOutputDevice,
+    ChampionNameFormatter championNameFormatter
+    )
 {
     public readonly Argument<string> ChampionName = new ("champion")
     {
@@ -32,7 +37,9 @@ public class LolFetchCommand(RenderChampionUseCase renderChampionUseCase, IAppli
     {
         Metadata metadata = await applicationMetadataRepository.FindOrCreateLatestAsync();
         
-        string championNameValue = parseResult.GetRequiredValue(ChampionName);
+        string championNameValue = championNameFormatter.Format(parseResult.GetRequiredValue(ChampionName));
+        
+        Console.WriteLine($"Looking for {championNameValue}");
         
         Canvas canvas = new Canvas(Console.WindowHeight, Console.WindowWidth);
         
