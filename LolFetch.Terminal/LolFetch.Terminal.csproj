@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>LolFetch</RootNamespace>
+        <Version>0.0.1</Version>
+        <AssemblyName>lolfetch</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.CommandLine" Version="2.0.0-beta6.25358.103" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\LolFetch.Application\LolFetch.Application.csproj" />
+      <ProjectReference Include="..\LolFetch.Infrastructure\LolFetch.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>
