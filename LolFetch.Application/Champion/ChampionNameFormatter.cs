@@ -5,7 +5,7 @@ namespace LolFetch.Application.Champion;
 
 public class ChampionNameFormatter
 {
-    private Dictionary<string, string> _predefinedNames = new Dictionary<string, string>();
+    private Dictionary<string, string> _predefinedNames = new();
 
     public ChampionNameFormatter()
     {

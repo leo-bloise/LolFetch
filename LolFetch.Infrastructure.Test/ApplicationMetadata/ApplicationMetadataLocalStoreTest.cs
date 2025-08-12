@@ -1,7 +1,7 @@
 using LolFetch.Application.Metadata;
 using LolFetch.Infrastructure.ApplicationMetadata;
 
-namespace LolFetch.Infrastructure.Test;
+namespace LolFetch.Infrastructure.Test.ApplicationMetadata;
 
 public class ApplicationMetadataLocalStoreTest
 {

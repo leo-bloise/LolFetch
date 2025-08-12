@@ -25,9 +25,7 @@ public class Program
         ICanvasOutputDevice canvasOutputDevice = new CanvasOutputTerminal();
 
         LolFetchCommand command = new LolFetchCommand(
-            new RenderChampionUseCase(
-                new ChampionImageDownloader(ddUriBuilder), new AscIIDraftsman()
-                ), 
+            new RenderChampionUseCase(new ChampionImageDownloader(ddUriBuilder, httpClient), new AscIIDraftsman()), 
             applicationMetadataRepository, 
             canvasOutputDevice,
             new ChampionNameFormatter()

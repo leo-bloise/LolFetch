@@ -1,5 +1,7 @@
-﻿using LolFetch.Application.DataDragon;
+﻿using System.Net;
+using LolFetch.Application.DataDragon;
 using LolFetch.Core;
+using LolFetch.Core.Exceptions;
 
 namespace LolFetch.Infrastructure;
 
@@ -9,11 +11,12 @@ public class ChampionImageDownloader : IChampionImageDownloader, IDisposable
 {
     private DdUriBuilder _ddUriBuilder;
 
-    private readonly HttpClient _httpClient = new();
+    private readonly HttpClient _httpClient;
     
-    public ChampionImageDownloader(DdUriBuilder ddUriBuilder)
+    public ChampionImageDownloader(DdUriBuilder ddUriBuilder, HttpClient httpClient)
     {
         _ddUriBuilder = ddUriBuilder;
+        _httpClient = httpClient;
     }
     
     public async Task<byte[]> DownloadLoadingSplashArt(Champion champion)
@@ -21,6 +24,11 @@ public class ChampionImageDownloader : IChampionImageDownloader, IDisposable
         Uri uri = _ddUriBuilder.BuildChampionsUri(champion);
         
         using HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri);
+
+        if (httpResponseMessage.StatusCode == HttpStatusCode.Forbidden)
+        {
+            throw new ChampionNotFound(champion);
+        }
         
         httpResponseMessage.EnsureSuccessStatusCode();
 
@@ -32,6 +40,11 @@ public class ChampionImageDownloader : IChampionImageDownloader, IDisposable
         Uri uri = _ddUriBuilder.BuildSquareChampionsUri(champion);
         
         using HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri);
+        
+        if (httpResponseMessage.StatusCode == HttpStatusCode.Forbidden)
+        {
+            throw new ChampionNotFound(champion);
+        }
         
         httpResponseMessage.EnsureSuccessStatusCode();
 

@@ -1,11 +1,10 @@
 using System.CommandLine;
 using LolFetch.Application;
 using LolFetch.Application.Champion;
-using LolFetch.Application.DataDragon;
 using LolFetch.Application.Metadata;
 using LolFetch.Application.Output;
 using LolFetch.Core;
-using LolFetch.Infrastructure;
+using LolFetch.Core.Exceptions;
 
 namespace LolFetch.Commands;
 
@@ -39,8 +38,6 @@ public class LolFetchCommand(
         
         string championNameValue = championNameFormatter.Format(parseResult.GetRequiredValue(ChampionName));
         
-        Console.WriteLine($"Looking for {championNameValue}");
-        
         Canvas canvas = new Canvas(Console.WindowHeight, Console.WindowWidth);
         
         Champion champion = new Champion(championNameValue, Core.Version.Parse(metadata.Version));
@@ -53,10 +50,21 @@ public class LolFetchCommand(
     
     public async Task HandleAsync(ParseResult parseResult)
     {
-        RenderChampionRequest request = await CreateRequest(parseResult);
-        
-        await renderChampionUseCase.RenderChampionAsync(request);
-        
-        canvasOutputDevice.Render(request.Canvas);
+        try
+        {
+            RenderChampionRequest request = await CreateRequest(parseResult);
+
+            await renderChampionUseCase.RenderChampionAsync(request);
+
+            canvasOutputDevice.Render(request.Canvas);
+        }
+        catch (ChampionNotFound exception)
+        {
+            Console.Error.WriteLine(exception.Message);
+        }
+        catch (Exception exception)
+        {
+            Console.Error.WriteLine("Internal Error Occurred. Please, contact the developer.");
+        }
     }
 }

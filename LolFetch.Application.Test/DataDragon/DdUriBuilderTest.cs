@@ -1,7 +1,7 @@
 ﻿using LolFetch.Application.DataDragon;
 using LolFetch.Core.DataDragon;
 
-namespace LolFetch.Application.Test;
+namespace LolFetch.Application.Test.DataDragon;
 
 public sealed class DdUriBuilderTest
 {
