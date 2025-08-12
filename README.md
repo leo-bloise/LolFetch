@@ -1,6 +1,12 @@
 # LolFetch
 LolFetch is a terminal tool to fetch and render an ASCII art of league of legends champions. It relies on data dragon api provided by Riot Games to download champion splash arts and also in ASCII escape codes to properly render the image inside the terminal correctly.
 
+
+
+https://github.com/user-attachments/assets/076c64d4-b83a-4d77-b7e4-98d8a3baa35c
+
+
+
 ## How it Works
 It uses the `System.CommandLine` to handle and parse the command line arguments. Running the command line program with `--help` shows the message below:
 ```c#
